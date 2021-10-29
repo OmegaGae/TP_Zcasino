@@ -1,0 +1,66 @@
+#python3.10.0
+#-*-coding:Latin-1 -*
+
+import random
+import math
+
+#creation des variables
+num_gag=0
+num_j1_str=""
+sum_j1_str=""
+continuer_partie_str=""
+num_j1=0
+sum_j1_tot=1000 #argent de depart et mise max
+continuer_partie = True
+
+#on debute la partie et on regarde si le joueur veut continuer a jouer 
+while continuer_partie:
+
+    ok_input=False
+    while ok_input is False:
+
+        try:
+            num_j1_str=input("Veuillez entrer un nombre compris entre 0-49 :")
+            num_j1= int(num_j1_str) #convertion de la nombre str --> int
+            assert (( num_j1 >=0 ) and (num_j1<= 49)) #Assertion capturé si nombre n'ets pas compris entre 0-49
+
+            sum_j1=-1
+            while sum_j1<=0 or sum_j1>sum_j1_tot:
+                print("Veuillez saisir une somme comprise entre 0 et ",sum_j1_tot,":")
+                sum_j1_str=input()
+                sum_j1= int(sum_j1_str) #convertion de la mise str --> int
+
+            ok_input=True
+        except ValueError as e_int:
+            print("Exception:",e_int,"occured, so please enter a int value")
+            continue
+        except AssertionError:
+            print("Exception:occured, so please enter a value between 0-49")
+            continue
+
+    num_gag=random.randrange(50)
+    print("num_gag=",num_gag)
+
+    if num_gag is num_j1:
+        sum_j1*=3
+        print("Vous avez gagne",sum_j1)
+
+    elif num_gag % 2 == num_j1 % 2:
+        sum_j1=sum_j1+ math.ceil(sum_j1/2)
+        print("Vous avez gagne",sum_j1)
+    else:
+        sum_j1= - math.ceil(sum_j1)
+        print("Vous avez perdu! il vous reste ", sum_j1_tot)
+    
+    sum_j1_tot += sum_j1
+    print("il vous reste : ", sum_j1_tot)
+    
+    continuer_parti_str= input("voulez vous continuer a jouer: Y or N \n")
+
+    if continuer_parti_str == "Y" or continuer_parti_str == "y":
+         continuer_partie =True
+    else:
+        continuer_partie=False
+        print("aurevoir")
+
+    
